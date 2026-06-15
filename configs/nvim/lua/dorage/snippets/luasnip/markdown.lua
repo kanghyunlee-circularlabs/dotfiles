@@ -169,5 +169,6 @@ description: <>
 	-- table
 }
 
+ls.add_snippets("mdx", markdown)
 ls.add_snippets("markdown", markdown)
 ls.add_snippets("telekasten", markdown)

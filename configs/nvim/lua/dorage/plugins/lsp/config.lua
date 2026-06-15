@@ -33,7 +33,10 @@ return {
 					"tailwindcss-language-server",
 					"typescript-language-server",
 					"prettier",
+					"ty",
+					"pyrefly",
 					"pyright",
+					"basedpyright",
 					"jdtls",
 					"eslint_d",
 					"markdownlint",
@@ -44,8 +47,26 @@ return {
 					"stylua",
 					"js-debug-adapter",
 					"tsgo",
+					"mdx-analyzer",
+					"markdown-oxide",
 				},
 			})
+
+			vim.lsp.config("ty", {
+				cmd = { "/Users/kanghyunlee/.local/share/uv/tools/ty/bin/ty", "server" },
+				root_markers = { ".git" },
+				settings = {
+					-- python = {
+					-- 	pythonPath = vim.fn.exepath("python3"), -- 또는 가상환경 경로
+					-- },
+				},
+			})
+
+			vim.lsp.config("tsgo", {
+				root_markers = { ".git", "pnpm-lock.yaml" },
+			})
+
+			vim.lsp.config("mdx-analyzer", {})
 
 			vim.lsp.config("basedpyright", {
 				root_markers = { ".git" },
@@ -64,12 +85,23 @@ return {
 				},
 			})
 
+			vim.lsp.config("markdown-oxide", {
+				root_markers = { ".git" },
+				filetypes = { "markdown" },
+			})
+
 			vim.lsp.enable({
+				"markdown-oxide",
 				"tsgo",
+				"mdx-analyzer",
 				"jdtls",
 				"bashls",
+				"gherkin",
+				"terraformls",
 				-- "eslint",
 				-- "denols",
+				-- "ty", -- astral.sh
+				-- "pyrefly",
 				"basedpyright",
 				-- "pyright",
 				"rust_analyzer",
@@ -81,12 +113,11 @@ return {
 				-- "biome",
 				"cssls",
 				"dartls",
-				-- "tailwindcss",
+				"tailwindcss",
 				"nil_ls", -- nix
 				"taplo",
 				"vuels",
 				"yamlls",
-				"marksman",
 				"sqlls",
 				"perlnavigator",
 				"autotools_ls",

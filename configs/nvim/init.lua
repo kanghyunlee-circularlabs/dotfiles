@@ -18,6 +18,13 @@ vim.cmd([[ :set ignorecase smartcase ]])
 vim.opt.grepprg = "rg --vimgrep --no-heading --smart-case"
 vim.opt.grepformat = "%f:%l:%c:%m"
 
+vim.filetype.add({
+	extension = {
+		tf = "terraform",
+		mdx = "markdown",
+	},
+})
+
 vim.lsp.config("*", {
 	root_markers = { ".git" },
 })

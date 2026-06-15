@@ -80,17 +80,3 @@ function ghprm() {
 function select_branch() {
 	git branch | fzf | sed 's/. \(.*\)/\1/'
 }
-
-# Worktree - add git worktree with branch
-function gwoa() {
-	branch=$(select_branch)
-	mkdir -p ~/worktrees # 디렉터리 없으면 생성
-	git worktree add "$HOME/worktrees/$branch" "$branch"
-	gum format -- "**$branch** 워크트리 생성"
-}
-
-function gwor() {
-	branch=$(select_branch)
-	git worktree remove "$branch"
-	gum format -- "**$branch** 워크트리 삭제"
-}

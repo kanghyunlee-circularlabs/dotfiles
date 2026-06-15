@@ -179,11 +179,13 @@ eval "$(zoxide init zsh)"
 
 alias cd="z"
 
-
 export EDITOR="nvim"
 
 # git
-source ~/.config/scripts/git/github.sh
+source ~/.config/scripts/index.sh
 
 # typora
 alias mk="open -a typora"
+
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
