@@ -189,3 +189,7 @@ alias mk="open -a typora"
 
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# git-spice
+alias gs='git-spice'
+eval "$(gs shell completion zsh)"
