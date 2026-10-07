@@ -1,6 +1,6 @@
 ---
 name: spec-build-artifact
-description: PR·이슈·브랜치·계획을 조사해 검토자가 읽고 결정할 검토용 스펙을 공유 가능한 문서(Claude Docs artifact)로 만들어요. 문서 뼈대를 먼저 띄우고 절 단위로 채우며, 플로우차트는 편집 가능한 다이어그램으로 그려요. spec-build 의 기본 형식이에요. 트리거 - `/spec-build-artifact {요청}`, `/spec-build {요청}`, "스펙을 문서로 만들어줘", "검토용 스펙 공유 문서"
+description: PR·이슈·브랜치·계획을 조사해 검토자가 읽고 결정할 검토용 스펙을 공유 가능한 문서(Claude Docs artifact)로 만들어요. 문서 뼈대를 먼저 띄우고 절 단위로 채우며, 플로우차트는 편집 가능한 다이어그램으로 그려요. spec-build 가 형식 언급 없는 요청을 이 스킬로 넘긴다. 트리거 - `/spec-build-artifact {요청}`, "스펙을 공유 문서로 만들어줘", "검토용 스펙 공유 문서"
 ---
 
 # spec-build-artifact — 검토용 스펙, 공유 문서
