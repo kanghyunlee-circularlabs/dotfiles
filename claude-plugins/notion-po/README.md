@@ -14,7 +14,8 @@ Notion CLI(`ntn`) 기반 **개발팀 PO(Product Owner) 보조** 플러그인이�
    ntn whoami          # 인증 확인
    # 미인증이면: ntn login  (브라우저 필요)
    ```
-2. 대상 Notion 워크스페이스에 스크럼 보드가 존재하고, 로그인한 계정(또는 봇)이 접근 권한을 가질 것.
+2. `bun` 설치 — Notion 조회·쓰기는 `scripts/ntn.ts`(bun 실행)로 해요. `bun --version` 으로 확인.
+3. 대상 Notion 워크스페이스에 스크럼 보드가 존재하고, 로그인한 계정(또는 봇)이 접근 권한을 가질 것.
 
 ## 대상 Notion 보드
 
@@ -25,7 +26,7 @@ Notion CLI(`ntn`) 기반 **개발팀 PO(Product Owner) 보조** 플러그인이�
 | 백로그 | https://app.notion.com/p/1d1f68d9408282359889014a90701890 |
 | 에픽 | https://app.notion.com/p/741f68d9408282139f3201f1bd372da3 |
 
-각 DB 의 data source ID·속성 매핑은 `skills/po/SKILL.md` 에 단일 출처로 정리돼 있어요. Notion 에서 DB 를 재생성해 ID 가 바뀌면 `ntn datasources resolve <database-id>` 로 갱신하세요.
+각 DB 의 data source ID·속성 매핑·실행 규칙은 `references/notion-resources.md` 에 단일 출처로 정리돼 있어요. Notion 에서 DB 를 재생성해 ID 가 바뀌면 `ntn datasources resolve <database-id>` 로 갱신하세요.
 
 ## 커맨드
 
