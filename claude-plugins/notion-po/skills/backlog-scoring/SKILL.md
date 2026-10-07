@@ -146,7 +146,7 @@ Notion formula 실측 기준으로 이렇게 계산돼요:
 각 항목의 `작업 이름`·`메모`·`에픽`(테마)·`기간` 등을 읽어 판단 근거를 만들어요. 정보가 부족하면 추측하지 말고 "근거 부족"으로 표시하고 사용자에게 물어요.
 
 ```bash
-ntn pages get <BACKLOG_PAGE_ID>            # 본문/메모 확인
+ntn pages get <BACKLOG_PAGE_ID> < /dev/null   # 본문/메모 확인
 # 속성값만 볼 땐 datasources query 결과의 properties 사용
 ```
 

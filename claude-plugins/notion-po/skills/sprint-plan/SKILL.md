@@ -113,15 +113,15 @@ po 스킬 「스프린트 생성」 단계 3과 같은 바디로 만든다. 뒤�
         "비즈니스가치": {"select": {"name": "5"}},
         "긴급도": {"select": {"name": "3"}},
         "위험도": {"select": {"name": "2"}},
-        "가치판단": {"rich_text": [{"text": {"content": "<backlog-scoring 형식>"}}]}
+        "가치판단": {"rich_text": [{"type": "text", "text": {"content": "<backlog-scoring 형식>"}}]}
       },
       "children": [
-        {"type": "heading_2", "heading_2": {"rich_text": [{"text": {"content": "배경"}}]}},
-        {"type": "paragraph", "paragraph": {"rich_text": [{"text": {"content": "<배경>"}}]}},
-        {"type": "heading_2", "heading_2": {"rich_text": [{"text": {"content": "완료 조건"}}]}},
-        {"type": "paragraph", "paragraph": {"rich_text": [{"text": {"content": "<완료 조건>"}}]}},
-        {"type": "heading_2", "heading_2": {"rich_text": [{"text": {"content": "참고"}}]}},
-        {"type": "paragraph", "paragraph": {"rich_text": [{"text": {"content": "<원 항목 URL>"}}]}}
+        {"object": "block", "type": "heading_2", "heading_2": {"rich_text": [{"type": "text", "text": {"content": "배경"}}]}},
+        {"object": "block", "type": "paragraph", "paragraph": {"rich_text": [{"type": "text", "text": {"content": "<배경>"}}]}},
+        {"object": "block", "type": "heading_2", "heading_2": {"rich_text": [{"type": "text", "text": {"content": "완료 조건"}}]}},
+        {"object": "block", "type": "paragraph", "paragraph": {"rich_text": [{"type": "text", "text": {"content": "<완료 조건>"}}]}},
+        {"object": "block", "type": "heading_2", "heading_2": {"rich_text": [{"type": "text", "text": {"content": "참고"}}]}},
+        {"object": "block", "type": "paragraph", "paragraph": {"rich_text": [{"type": "text", "text": {"content": "<원 항목 URL>"}}]}}
       ]
     }
   },
@@ -138,7 +138,7 @@ po 스킬 「스프린트 생성」 단계 3과 같은 바디로 만든다. 뒤�
     "label": "지연사유: <작업 이름>",
     "path": "/v1/pages/<ORIGINAL_PAGE_ID>",
     "method": "PATCH",
-    "body": {"properties": {"지연사유": {"rich_text": [{"text": {"content": "<왜 못 끝냈는지> → <이월한 항목>"}}]}}}
+    "body": {"properties": {"지연사유": {"rich_text": [{"type": "text", "text": {"content": "<왜 못 끝냈는지> → <이월한 항목>"}}]}}}
   }
 ]
 ```
