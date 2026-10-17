@@ -2,6 +2,12 @@
 
 SKILL.md 의 운영 가이드로 커버되지 않는 영역(특히 Workers)과 전역 옵션 전체 목록이에요. 버전에 따라 차이가 있을 수 있으니 애매하면 `ntn <command> --help` 로 실제 설치본을 확인해요.
 
+## 목차
+
+- 문서 인덱스, 전역 플래그, 환경변수, 인증
+- 페이지, 데이터소스, API, 파일
+- Workers: 공통 플래그, 코어, sync, env, OAuth, runs, webhooks
+
 ## 문서 인덱스
 
 전체 API 문서 인덱스: `https://developers.notion.com/llms.txt` (`WebFetch` 로 받아 탐색). 개별 엔드포인트는 `ntn api <path> --docs` / `--spec`.
