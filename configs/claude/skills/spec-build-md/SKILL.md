@@ -1,6 +1,6 @@
 ---
 name: spec-build-md
-description: PR·이슈·브랜치·계획을 조사해 검토자가 읽고 결정할 검토용 스펙을 마크다운(.md) 파일로 써요. 결정 요청, 불변식(경계 날짜·수치 예시), DB 쿼리, 실행 인터페이스, mermaid 플로우차트, Gherkin 테스트 시나리오, 추가 검토사항, ADR 결정 기록, 배포 단계를 담아요. 트리거 - `/spec-build-md {요청}`, `/spec-build md {요청}`, "스펙을 md 로 써줘"
+description: PR·이슈·브랜치·계획을 조사해 검토자가 읽고 결정할 검토용 스펙을 마크다운(.md) 파일로 써요. 결정 요청, 불변식(경계 날짜·수치 예시), DB 쿼리, 실행 인터페이스, mermaid 플로우차트, Gherkin 테스트 시나리오, 추가 검토사항, ADR 결정 기록, 배포 단계를 담아요. spec-build 가 md 형식 요청을 이 스킬로 넘긴다. 트리거 - `/spec-build-md {요청}`, "스펙을 md 로 써줘"
 ---
 
 # spec-build-md — 검토용 스펙, 마크다운 파일

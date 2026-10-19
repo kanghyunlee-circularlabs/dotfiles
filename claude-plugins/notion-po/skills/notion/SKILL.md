@@ -5,7 +5,7 @@ description: Notion CLI(`ntn`)로 Notion 워크스페이스를 다뤄요 — 페
 
 # Notion CLI (`ntn`)
 
-Notion 워크스페이스를 터미널에서 다루는 skill 이에요. 설치된 `ntn` CLI(0.19.x 기준)를 써서 페이지·데이터소스·임의 API·Workers 를 조작해요.
+Notion 워크스페이스를 터미널에서 다루는 skill 이에요. 설치된 `ntn` CLI 를 써서 페이지·데이터소스·임의 API·Workers 를 조작해요.
 
 핵심 원칙: **모르는 엔드포인트는 추측하지 말고 CLI 의 탐색 기능(`ntn api ls`, `--spec`, `--docs`)으로 먼저 확인**해요. Notion API 스키마는 넓고 자주 바뀌므로, 결정적 단정 전에 출처를 확인해요.
 
@@ -111,7 +111,7 @@ ntn datasources query <DATA_SOURCE_ID> --filter-file filter.json   # '-' 면 std
 ```
 
 - 필터 JSON 스키마가 헷갈리면 추측하지 말고 `ntn api pages 관련 docs` 또는 공식 "Filter data source entries" 레퍼런스를 확인해요. 필요하면 `ntn api <path> --docs` 로 관련 문서를 뽑아요.
-- 결과가 페이지네이션되면 응답의 `next_cursor` 를 `--start-cursor` 로 넘겨 다음 페이지를 가져와요.
+- **기본 `--limit` 은 25건이에요.** 응답의 `has_more` 가 `true` 면 `next_cursor` 를 `--start-cursor` 로 넘겨 끝까지 받아요. 첫 장만 보고 "없다" 고 판정하지 않아요. 개발팀 스프린트·백로그 DB 는 플러그인의 `scripts/ntn.ts query-all` 이 이 루프를 대신해요.
 
 ### 6. 임의 API 호출 — `ntn api` (페이지/DB 이외의 모든 것)
 
@@ -159,3 +159,7 @@ ntn api <path> -d @-             # stdin 에서 바디
 Workers(배포·sync·env·oauth·runs·webhooks), 전역 플래그, 환경변수 등 전체 목록은 [reference.md](reference.md) 를 참고해요. Workers 관련 요청이 들어오면 그 파일을 먼저 읽어요.
 
 애매한 서브커맨드/플래그는 항상 `ntn <command> --help` 로 실제 설치본에서 확인해요 (버전에 따라 차이가 있을 수 있어요).
+
+## 실측 기록
+
+- 이 문서는 `ntn` 0.19.x 기준으로 썼어요(2026-10-07 설치본 0.19.2). 버전이 바뀌어 다르게 동작하면 `--help` 결과를 따르고 이 문서를 고쳐요.

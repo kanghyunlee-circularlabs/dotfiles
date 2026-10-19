@@ -5,7 +5,7 @@ argument-hint: sprint init {1~4} | sprint plan {1~4} | sprint update | sprint re
 
 PO(Product Owner) 보조 커맨드예요. 입력 인자: `$ARGUMENTS`
 
-먼저 `po` 스킬을 따라요 — 대상 Notion 리소스 ID·속성 매핑·스프린트 규칙·안전 규칙이 모두 거기 있어요. Notion 조작은 `notion` 스킬(`ntn` CLI)에 의존하고, **작업 전 `ntn whoami` 로 인증을 확인**해요.
+리소스 ID·속성 매핑·실행 규칙은 `${CLAUDE_PLUGIN_ROOT}/references/notion-resources.md`, 스프린트 규칙은 `po` 스킬에 있어요. **작업 전 `ntn whoami < /dev/null` 로 인증을 확인**해요.
 
 `$ARGUMENTS` 를 파싱해 서브커맨드로 분기해요:
 

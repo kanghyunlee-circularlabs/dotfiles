@@ -1,15 +1,14 @@
 ---
 name: sprint-report
-description: 이번 주 스프린트 페이지 최상단에 보고용 브리핑을 써요 — 지난 스프린트에서 누가 어떤 작업을 했는지(회고/리뷰·백로그 상태 근거)와 이번 스프린트에서 누가 어떤 작업을 할지 요약. `/po sprint report` 커맨드나 "스프린트 브리핑 써줘 / 지난 스프린트 요약해서 이번 스프린트 페이지에 올려줘" 같은 요청으로 트리거해요. Notion 조작은 [[notion]] 스킬, 스프린트/백로그 DB 정보는 [[po]] 스킬을 따라요.
+description: 개발팀 Notion 의 이번 주 스프린트 페이지 최상단에 보고용 브리핑을 쓴다 — 지난 스프린트에서 누가 무엇을 했는지(회고·리뷰·백로그 상태 근거)와 이번 스프린트에서 누가 무엇을 할지 작업자별로 요약한다. `/po sprint report` 커맨드나 "스프린트 브리핑 써줘", "지난 스프린트 요약해서 이번 스프린트 페이지에 올려줘" 같은 요청에 사용한다.
 ---
 
 # 스프린트 브리핑 (보고용 요약)
 
 이번 주 스프린트 페이지 **최상단**에 보고용 브리핑을 만드는 skill 이에요. 지난 스프린트에서 **누가 어떤 작업을 했는지**, 이번 스프린트에서 **누가 어떤 작업을 할지**를 한눈에 파악할 수 있게 정리해요.
 
-- 스프린트/백로그 data source ID·속성 맵은 [po 스킬](../po/SKILL.md) 의 표를 단일 출처로 써요.
-- `ntn` CLI 사용법·인증·**비대화 호출 주의(`< /dev/null`, 한글 바디는 `-d @file`, `timeout`)** 는 [notion 스킬](../notion/SKILL.md) 을 따라요. **작업 전 `ntn whoami` 로 인증부터 확인**해요.
-- 스프린트 data source: `3a3f68d9-4082-807e-8a43-000b9965f503` / 백로그 data source: `a07f68d9-4082-8359-9579-07c5578db49e`
+- 리소스 ID·속성 맵·실행 규칙은 [notion-resources.md](../../references/notion-resources.md). 조회·변환·쓰기는 `bun ${CLAUDE_PLUGIN_ROOT}/scripts/ntn.ts`(이하 `ntn.ts`). 작업 전 `ntn whoami < /dev/null` 로 인증을 확인해요.
+- 임시 파일(`brief.md`, `brief_blocks.json`)은 `/tmp` 고정 경로가 아니라 지금 작업 디렉터리의 스크래치 위치에 둬요. 병렬 세션이 같은 파일을 덮어쓰지 않게 하기 위해서예요.
 
 > **⚠️ 절대 `ntn pages edit` 를 쓰지 않아요.** 스프린트 페이지에는 회의노트(meeting-notes) 블록이 있어서 전체 덮어쓰기가 회의 기록을 망가뜨릴 수 있어요. 삽입은 반드시 blocks API(`/v1/blocks/.../children`)로만 해요.
 
@@ -54,23 +53,7 @@ description: 이번 주 스프린트 페이지 최상단에 보고용 브리핑�
 
 ### 1. 스프린트 식별
 
-이번/지난 스프린트를 실제 날짜로 골라요. 스프린트 기간이 월~월로 겹치는 관행이 있어서(경계일엔 오늘이 두 스프린트에 포함) **이번 = 오늘을 포함하는 것 중 시작일이 가장 최근**, **지난 = 이번보다 먼저 시작한 것 중 종료일이 가장 최근**으로 판정해요:
-
-```bash
-ntn datasources query 3a3f68d9-4082-807e-8a43-000b9965f503 --json < /dev/null | python3 -c "
-import sys,json,datetime as dt
-today=dt.date.today().isoformat()
-rows=[]
-for p in json.load(sys.stdin).get('results',[]):
-    pr=p['properties']
-    t=''.join(x['plain_text'] for x in pr.get('이름',{}).get('title',[]))
-    d=pr.get('기간',{}).get('date') or {}
-    if d.get('start') and d.get('end'): rows.append((d['start'],d['end'],p['id'],t))
-cur=max([r for r in rows if r[0]<=today<=r[1]], default=None, key=lambda r:r[0])
-last=max([r for r in rows if cur and r[0]<cur[0]], default=None, key=lambda r:r[1])
-print('이번:',cur); print('지난:',last)
-"
-```
+`ntn.ts current-sprints` 로 이번·지난 스프린트를 골라요. 판정 규칙은 스크립트에 있어요 — 옛 스프린트가 월~월로 겹쳐 경계일엔 오늘이 둘에 걸리므로, **이번 = 오늘을 포함하는 것 중 시작일이 가장 최근**, **지난 = 이번보다 먼저 시작한 것 중 종료일이 가장 최근**이에요.
 
 둘 중 하나라도 못 찾거나 판정이 애매하면(스프린트 공백기 등) 임의로 고르지 말고 후보를 보여주며 사용자에게 확인해요 (`AskUserQuestion` 권장).
 
@@ -86,22 +69,7 @@ ntn pages get <LAST_SPRINT_PAGE_ID> < /dev/null
 - `## 이월/취소 기록` 절 → 이월·취소 항목과 사유.
 - summary 가 `<empty-block/>` 뿐이면 회고 근거 없음으로 취급하고 (b) 백로그 상태로만 판단해요.
 
-**(b) 양쪽 스프린트의 백로그** — 상태·작업자·포인트를 뽑아요 (지난/이번 각각 `<SPRINT_PAGE_ID>` 만 바꿔 실행):
-
-```bash
-ntn datasources query a07f68d9-4082-8359-9579-07c5578db49e \
-  --filter '{"property":"⚡ 스프린트","relation":{"contains":"<SPRINT_PAGE_ID>"}}' --json < /dev/null \
-  | python3 -c "
-import sys,json
-for p in json.load(sys.stdin).get('results',[]):
-    pr=p['properties']
-    name=''.join(x['plain_text'] for x in pr.get('작업 이름',{}).get('title',[]))
-    status=(pr.get('상태',{}).get('status') or {}).get('name')
-    people=', '.join(u.get('name','?') for u in pr.get('작업자',{}).get('people',[]))
-    sp=(pr.get('스토리포인트',{}).get('formula') or {}).get('number')
-    print(f'[{status}] {name} | 작업자: {people or \"-\"} | {sp}pt')
-"
-```
+**(b) 양쪽 스프린트의 백로그** — `ntn.ts backlog --sprint <SPRINT_PAGE_ID>` 를 지난/이번 각각 실행해 상태·작업자·포인트를 뽑아요.
 
 이번 스프린트에 연결된 백로그가 없으면 브리핑을 만들지 말고 사용자에게 알려요 (스프린트 계획이 아직 없는 상태).
 
@@ -111,41 +79,7 @@ for p in json.load(sys.stdin).get('results',[]):
 
 ### 4. 블록 변환
 
-마크다운을 임시 파일(예: `/tmp/brief.md`)에 쓰고, Notion 블록 JSON 으로 변환해요. (변환기 스크립트는 heredoc = stdin 이라, 마크다운은 stdin 이 아니라 **파일 인자**로 넘겨요.)
-
-```bash
-python3 - /tmp/brief.md > /tmp/brief_blocks.json <<'PY'
-import sys, json
-
-def rt(text):
-    out = []
-    for i, seg in enumerate(text.split('**')):
-        if seg:
-            out.append({"type": "text", "text": {"content": seg},
-                        "annotations": {"bold": i % 2 == 1}})
-    return out
-
-TYPES = [('### ', 'heading_3'), ('## ', 'heading_2'),
-         ('- ', 'bulleted_list_item'), ('> ', 'quote')]
-blocks = []
-for line in open(sys.argv[1]).read().splitlines():
-    s = line.strip()
-    if not s:
-        continue
-    if s == '---':
-        blocks.append({"type": "divider", "divider": {}})
-        continue
-    for prefix, typ in TYPES:
-        if s.startswith(prefix):
-            blocks.append({"type": typ, typ: {"rich_text": rt(s[len(prefix):])}})
-            break
-    else:
-        blocks.append({"type": "paragraph", "paragraph": {"rich_text": rt(s)}})
-json.dump({"children": blocks}, sys.stdout, ensure_ascii=False)
-PY
-```
-
-블록이 100개를 넘으면 append API 가 거부해요 — 브리핑은 20줄 내외라 정상이면 도달하지 않아요. 넘었다면 분량부터 줄여요.
+Write 도구로 브리핑 마크다운을 `brief.md` 에 쓰고, `ntn.ts md2blocks brief.md > brief_blocks.json` 으로 블록 JSON 을 만들어요. 변환기는 위 「문법 제약」의 문법만 알아요. 블록이 100개(append API 한도)를 넘으면 스크립트가 멈추니 분량부터 줄여요.
 
 ### 5. 최상단 삽입 (분기)
 
@@ -160,22 +94,17 @@ ntn api /v1/blocks/<THIS_SPRINT_PAGE_ID>/children < /dev/null
 **(가) 본문이 비어 있으면** (새로 만든 스프린트의 기본 상태) — 그냥 append 하면 최상단이에요:
 
 ```bash
-timeout 60 ntn api /v1/blocks/<THIS_SPRINT_PAGE_ID>/children -X PATCH -d @/tmp/brief_blocks.json < /dev/null
+ntn.ts write /v1/blocks/<THIS_SPRINT_PAGE_ID>/children PATCH brief_blocks.json
 ```
 
 **(나) 첫 블록이 기존 브리핑이면** (heading 텍스트에 `스프린트 브리핑` 포함) — 재실행이에요. 기존 브리핑 범위 = 첫 블록부터 **첫 divider 블록까지**. 순서가 중요해요: **새 것을 먼저 넣고, 성공을 확인한 뒤 옛 것을 지워요** (중간에 실패해도 브리핑이 사라지지 않는 안전망):
 
 ```bash
 # 1) 새 브리핑을 기존 브리핑 마지막 블록(divider) 뒤에 삽입
-python3 -c "
-import json
-d=json.load(open('/tmp/brief_blocks.json')); d['after']='<기존 divider 블록 ID>'
-json.dump(d,open('/tmp/brief_blocks.json','w'),ensure_ascii=False)
-"
-timeout 60 ntn api /v1/blocks/<THIS_SPRINT_PAGE_ID>/children -X PATCH -d @/tmp/brief_blocks.json < /dev/null
-
-# 2) 응답이 정상이면(object=list) 기존 브리핑 블록들을 삭제
-timeout 60 ntn api /v1/blocks/<기존 블록 ID> -X DELETE < /dev/null   # 범위 내 블록마다 반복
+ntn.ts md2blocks brief.md --after <기존 divider 블록 ID> > brief_blocks.json
+ntn.ts write /v1/blocks/<THIS_SPRINT_PAGE_ID>/children PATCH brief_blocks.json
+# 2) 위가 성공(exit 0, object=list)했을 때만, 기존 브리핑 범위의 블록마다
+ntn api /v1/blocks/<기존 블록 ID> -X DELETE < /dev/null
 ```
 
 **(다) 본문에 다른 콘텐츠가 있는데 브리핑은 없으면** — Notion API 는 "첫 블록 앞" 삽입을 지원하지 않아요. 임의로 진행하지 말고 사용자에게 두 안을 제시해 골라요:

@@ -1,6 +1,6 @@
 ---
 name: spec-bdd
-description: 마스터가 계획, 스펙 작성 혹은 동작이 변경이 예상되는 코드 생성/수정을 계획단계없이 요청했을 때, 테스트케이스 구성을 위해 이 스킬을 사용해요. Gherkin 문법을 이용해 BDD 테스트 시나리오 가드라인을 작성해요. 트리거 - /spec-bdd {요청}, '계획 작성', '~ 부분 수정해줘'
+description: Gherkin(BDD) 테스트 시나리오와 .feature 파일을 작성·검토하는 가이드라인. 동작 변경을 시나리오로 먼저 정의할 때, 스펙·계획 문서의 테스트 시나리오 절을 쓸 때(spec-build 가 참조), Gherkin·BDD·Given/When/Then·시나리오 작성을 언급할 때 사용한다. 트리거 - `/spec-bdd {요청}`, "BDD 시나리오 써줘", "Gherkin 으로 테스트 케이스 정리해줘"
 metadata:
   author: AutomationPanda
   source: https://github.com/AutomationPanda/gherkin-guidelines-for-ai
@@ -262,4 +262,4 @@ Feature: <behavior area>
 | And | `*`, 그리고 |
 | But | `*`, 하지만, 단 |
 
-원문에서 붙어 있던 값들(`*조건먼저` 등)은 Gherkin 공식 키워드 목록 기준으로 `*`, `조건`, `먼저`처럼 개별 키워드로 나눴습니다. `*`는 모든 스텝 키워드 대신 쓸 수 있는 범용 스텝 키워드입니다.
+`*` 는 모든 스텝 키워드 대신 쓸 수 있는 범용 스텝 키워드다.
