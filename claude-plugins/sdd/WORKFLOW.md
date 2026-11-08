@@ -17,6 +17,7 @@ flowchart LR
     draft -. 참여자 확정 시 자동 .-> review["/sdd:persona-review"]
     quick -. 규모 초과 .-> draft
     draft --> design["/sdd:design"]
+    draft --> flow["/sdd:flow"]
     draft --> bdev["/sdd:brief-dev"]
     draft --> bnon["/sdd:brief-nondev"]
     design -- 「완성」 --> task["/sdd:task"]
@@ -37,6 +38,9 @@ flowchart LR
 
 ## 곁가지
 
+- 화면이 바뀌는 기능일 때: 요구사항 문서가 생긴 뒤, pug-frame 와이어프레임을 그리기 전에 `/sdd:flow {폴더}`
+    - 흐름도와 화면 표로 어느 화면에 무엇이 끼어드는지 먼저 맞춘다. design.md 가 없어도 쓸 수 있다
+    - 이미 그린 와이어프레임이 있으면 경로를 함께 넘긴다. 고칠 행 목록이 생긴다
 - 다른 사람과 기획을 나눌 때: 요구사항 문서가 생긴 뒤 언제든
     - 개발자에게 → `/sdd:brief-dev {폴더}`
     - 운영·영업·디자인·경영 직원에게 → `/sdd:brief-nondev {폴더}`

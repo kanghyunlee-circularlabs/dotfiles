@@ -10,6 +10,7 @@ sdd 명령이 남기는 결과물과, 결과물끼리 무엇을 읽는지 정리
 ~/.sdd/{리포 폴더}/{YYYYmmddHHMMSS}_{요청내용}/
   requirements.md          # 맨 끝 「참여자별 검토 기록」은 /sdd:persona-review 가 쓴다
   design.md
+  flow.md
   tasks.md
   brief-dev.md
   brief-nondev.md
@@ -28,12 +29,14 @@ flowchart LR
     req["requirements.md<br/>/sdd:draft"]
     rev["/sdd:persona-review<br/>같은 문서를 보강"]
     des["design.md<br/>/sdd:design"]
+    flw["flow.md<br/>/sdd:flow"]
     tsk["tasks.md<br/>/sdd:task"]
     fea["features/*.feature<br/>/sdd:bdd"]
     bdev["brief-dev.md<br/>/sdd:brief-dev"]
     bnon["brief-nondev.md<br/>/sdd:brief-nondev"]
     req <--> rev
     req --> des
+    req --> flw
     req --> tsk
     req --> fea
     req --> bdev
@@ -52,13 +55,14 @@ flowchart LR
 - persona-review: requirements.md 가 없으면 고치지 않고 `/sdd:draft` 를 안내한다. 새 파일을 만들지 않는다
 - design.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다. requirements.md 에 열린 결정이 남아 있어도 쓴다
 - tasks.md, features/: 둘 중 하나라도 없으면 쓰지 않고 빠진 문서를 만드는 명령을 안내한다. design.md 가 「완성」 이 아니면 남은 결정을 알려 준다
+- flow.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다. design.md 는 없어도 쓴다. requirements.md 에 열린 결정이 남아 있어도 추천안으로 그린다
 - brief-dev.md, brief-nondev.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다
 
 ## 앞 문서가 바뀌었을 때
 
 화살표를 따라 뒤 문서를 다시 부른다.
 
-- requirements.md 를 고쳤다 → `/sdd:design` 으로 설계에 반영한 뒤, 아래 design.md 줄을 따른다. brief 를 썼다면 `/sdd:brief-dev`·`/sdd:brief-nondev` 도 다시 부른다
+- requirements.md 를 고쳤다 → `/sdd:design` 으로 설계에 반영한 뒤, 아래 design.md 줄을 따른다. brief 를 썼다면 `/sdd:brief-dev`·`/sdd:brief-nondev`, 화면흐름을 썼다면 `/sdd:flow` 도 다시 부른다
 - design.md 를 고쳤다 → `/sdd:task`, `/sdd:bdd` 를 다시 부른다
     - tasks.md 는 이미 끝난(`done`) 작업을 그대로 두고 고친다
-- tasks.md, features/, brief 문서는 다른 문서가 읽지 않는다. 고쳐도 다시 부를 명령이 없다
+- tasks.md, features/, flow.md, brief 문서는 다른 문서가 읽지 않는다. 고쳐도 다시 부를 명령이 없다

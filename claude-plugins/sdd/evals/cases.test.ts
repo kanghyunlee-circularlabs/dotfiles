@@ -215,3 +215,18 @@ test("draft 규칙이 요구사항 문서의 코드 경로를 잡는다", () => 
   assert.ok(!check(g, text + "\n- 결제는 `src/order/checkout.ts` 에서 계산한다\n"));
   assert.ok(!check(g, text + "\n- `in_house_service.py` 가 인증한다\n"));
 });
+
+test("references/flow.md 견본이 flow regex 규칙을 통과한다", () => {
+  const ref = readFileSync(join(pluginDir, "references", "flow.md"), "utf8");
+  const sample = /````markdown\n([\s\S]*?)\n````/.exec(ref);
+  assert.ok(sample, "references/flow.md 에 견본이 없습니다");
+  for (const g of graderSet("flow").filter((g) => g.type === "regex")) {
+    assert.ok(check(g, sample[1]), `${g.name} 실패`);
+  }
+});
+
+test("flow 결정 문자 규칙이 다른 문서의 결정 문자를 잡는다", () => {
+  const g = graderSet("flow").find((g) => g.name === "regex-decision-letters")!;
+  assert.ok(!check(g, "- **S1. 정산 탭을 어디에 둘지** ->"));
+  assert.ok(check(g, "- **M1. 정산 탭을 어디에 둘지** ->"));
+});
