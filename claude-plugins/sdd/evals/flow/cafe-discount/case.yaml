@@ -30,7 +30,7 @@ graders:
   - type: regex
     name: regex-path-flowchart-lr
     target: {source: file, path: out/flow.md}
-    pattern: '#### 경로\s*\n[\s\S]*?```mermaid\s*\n\s*flowchart LR'
+    pattern: '#### 경로[^`]*```mermaid\s*\n\s*flowchart LR'
     match: contains
   - type: regex
     name: regex-flow-flowchart-td
