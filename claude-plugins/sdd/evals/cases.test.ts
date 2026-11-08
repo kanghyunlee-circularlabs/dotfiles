@@ -170,7 +170,10 @@ test("brief 규칙은 골든 요구사항 문서(마커가 있는 원본)를 떨
   const dev = graderSet("brief-dev");
   assert.ok(!check(dev.find((g) => g.name === "regex-no-markers")!, text));
   assert.ok(!check(dev.find((g) => g.name === "regex-no-marker-column")!, text));
+  // 원본은 「필요한 결정」이 맨 위이고 `---` 가 없어 brief 절 순서를 떨어진다
+  assert.ok(!check(dev.find((g) => g.name === "regex-section-order")!, text));
   const nondev = graderSet("brief-nondev");
+  assert.ok(!check(nondev.find((g) => g.name === "regex-section-order")!, text));
   // 요구사항 문서는 경로를 적지 않는다 (references/draft.md 「이 문서의 수준」). 경로가 섞인 글로 규칙을 확인한다
   const path = nondev.find((g) => g.name === "regex-no-code-path")!;
   assert.ok(check(path, text), "골든 요구사항 문서에 코드 경로가 남아 있습니다");
