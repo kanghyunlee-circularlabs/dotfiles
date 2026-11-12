@@ -93,7 +93,7 @@
 
 ### 경로
 
-- `~/.sdd/{리포 폴더}/{YYYYmmddHHMMSS}_{요청내용}/` 한 폴더에 한 요청의 `requirements.md`·`design.md`·`flow.md`·`brief-dev.md`·`brief-nondev.md`·`tasks.md`·`features/` 를 모은다
+- `~/.sdd/{리포 폴더}/{YYYYmmddHHMMSS}_{요청내용}/` 한 폴더에 한 요청의 `requirements.md`·`design.md`·`flow.md`·`brief-dev.md`·`brief-nondev.md`·`tasks.md`·`scenarios.md`·`features/` 를 모은다
     - 예: `~/.sdd/dotfiles/20261102143005_제휴카페-임직원-할인/requirements.md`
 - `{리포 폴더}`: `sdd:setup` 「이름 정하기」의 이름. `~/.sdd/{리포 폴더}/` 는 그 스킬의 「실행」 명령을 그대로 돌려 얻는다. 없으면 그 명령이 만든다
 - `{YYYYmmddHHMMSS}`: 폴더를 만드는 순간의 로컬 시각. 같은 이름의 폴더가 이미 있으면 1초 뒤 시각으로 다시 만든다
@@ -119,7 +119,7 @@
 ### 대상과 때
 
 - 대상: `requirements.md`·`design.md`·`flow.md`·`tasks.md`·`brief-dev.md`·`brief-nondev.md`
-- 거치지 않는 것: `features/*.feature`(Gherkin 키워드와 단계 문장이 깨진다), `sdd:quick`(파일이 없는 채팅 답), 공유 문서 경로(로컬 파일이 아니다)
+- 거치지 않는 것: `features/*.feature`·`scenarios.md`(Gherkin 키워드와 단계 문장이 깨진다), `sdd:quick`(파일이 없는 채팅 답), 공유 문서 경로(로컬 파일이 아니다)
 - 때: 스킬이 파일을 다 쓰고 자기 검증(`(작성 중)` 검색, 마커·구조 검증)을 마친 직후. 「답 반영」으로 고친 뒤와 `sdd:persona-review` 가 고친 뒤에도 다시 거친다
 - 플러그인이 없으면(`claude plugin list` 에 `humanize-korean@im-not-ai` 가 없으면) 건너뛰고, 끝맺음에 "윤문을 건너뛰었습니다. `/sdd:setup` 을 실행하세요" 한 줄을 붙인다. 문서 작성은 막지 않는다
 

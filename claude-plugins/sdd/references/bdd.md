@@ -1,6 +1,6 @@
 # Gherkin 시나리오 (*.feature)
 
-`sdd:bdd` 가 쓰는 Gherkin 시나리오의 모양이다. 마커 태그는 `references/spec-format.md` 를 따른다. 영어 본문은 AutomationPanda 의 gherkin-guidelines-for-ai (https://github.com/AutomationPanda/gherkin-guidelines-for-ai) 를 옮겨 고친 것이다.
+`sdd:bdd` 가 쓰는 Gherkin 시나리오의 모양이다. 설계 경로는 `*.feature` 파일로, 기획 경로는 마크다운 문서(`scenarios.md`)의 코드 블록으로 쓴다. 두 경로를 고르는 법은 `skills/bdd/SKILL.md` 「입력 찾기」에 있다. 「Files and organization」은 설계 경로에만, 「마크다운 문서 (기획 경로)」는 기획 경로에만 쓰고, 나머지 절은 두 경로에 함께 쓴다. 마커 태그는 `references/spec-format.md` 를 따른다. 영어 본문은 AutomationPanda 의 gherkin-guidelines-for-ai (https://github.com/AutomationPanda/gherkin-guidelines-for-ai) 를 옮겨 고친 것이다.
 
 ## Files and organization
 
@@ -16,7 +16,7 @@
 
 ## Formatting rules (make diffs and parsing reliable)
 
-- **MUST** use one `Feature` per file.
+- **MUST** use one `Feature` per file (기획 경로는 코드 블록 하나에 `Feature` 하나).
 - **MAY** have multiple `Scenario` / `Scenario Outline` blocks under a single `Feature`.
 - **MUST** indent the body of these sections by **2 spaces**:
   - `Feature`
@@ -328,3 +328,38 @@ Feature: <behavior area>
     그러면 응답의 예약 시각은 2026-10-20 17:30:00이다
     그리고 조회한 예약 B의 방문 희망일은 2026-10-24이다
 ```
+
+## 마크다운 문서 (기획 경로)
+
+기획 경로는 `*.feature` 파일 대신 스펙 폴더의 `scenarios.md` 한 장에 시나리오를 모은다. Feature 분할, 시나리오·스텝·표 규칙, 태그는 위 절을 그대로 따르고, 파일 단위 규칙만 아래로 바꾼다.
+
+- **MUST** 설계 경로의 `<actor>-<flow>.feature` 파일 하나를 `### <actor>-<flow>` 헤딩과 그 아래 ` ```gherkin ` 코드 블록 하나로 바꾼다
+- **MUST** 도메인 디렉터리는 `## <도메인>` 헤딩으로 바꾼다 (예: `## 주문`)
+- **MUST** 코드 블록마다 첫 줄에 `# language: ko` 를 쓴다. 블록 하나를 그대로 `.feature` 파일로 옮길 수 있게 하기 위해서다
+- **MUST** 문서 맨 위에 한 줄로 근거 문서(`requirements.md`)와 "설계 전이라 테스트 층을 나누지 않았다"를 적는다
+- **MUST NOT** 응답 상태, 거절 사유 코드, 화면 요소 같은 설계 단계의 모양을 스텝에 쓰지 않는다. 위 「예시」의 `api-` 예외는 이 경로에 쓰지 않는다
+- **MUST NOT** 코드 블록 밖에 시나리오를 다시 풀어 쓰지 않는다. 헤딩과 코드 블록 사이에는 아무것도 두지 않는다
+
+````markdown
+# 제휴카페 임직원 할인 시나리오
+
+`requirements.md` 의 인수 조건과 업무 규칙으로 쓴 시나리오다. 설계 전이라 테스트 층을 나누지 않았다.
+
+## 주문
+
+### employee-pays-order
+
+```gherkin
+# language: ko
+기능: 임직원의 주문 결제
+  임직원으로서
+  제휴 카페에서 라떼를 할인받아 사길 바란다
+  그래서 회사 복지를 바로 누린다
+
+  @결정
+  시나리오: 인증된 임직원이 라떼 2잔을 사면 잔마다 할인된다
+    조건 임직원 "김민지"가 회사 인증을 마쳤다
+    만약 김민지가 5,900원 라떼 2잔을 결제한다
+    그러면 결제 금액은 8,800원이다
+```
+````
