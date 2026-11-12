@@ -20,11 +20,12 @@ flowchart LR
     draft --> flow["/sdd:flow"]
     draft --> bdev["/sdd:brief-dev"]
     draft --> bnon["/sdd:brief-nondev"]
+    draft -. 설계 전 .-> bddp["/sdd:bdd<br/>scenarios.md"]
     design -- 「완성」 --> task["/sdd:task"]
-    design -- 「완성」 --> bdd["/sdd:bdd"]
+    design -- 「완성」 --> bdd["/sdd:bdd<br/>features/"]
 ```
 
-화살표는 "앞 명령이 끝나야 뒤 명령을 쓸 수 있다" 는 뜻이다. `task` 와 `bdd` 는 같은 설계를 받아 나란히 쓸 수 있다.
+화살표는 "앞 명령이 끝나야 뒤 명령을 쓸 수 있다" 는 뜻이다. `task` 와 `bdd` 는 같은 설계를 받아 나란히 쓸 수 있다. 점선의 `bdd` 는 design.md 가 없는 폴더에서 부른 같은 명령이다.
 
 ## 기본 흐름
 
@@ -33,7 +34,7 @@ flowchart LR
 - `/sdd:design {폴더}`: 어떻게 만드는지 설계 문서로 쓴다. 요구사항 문서에 열린 결정이 남아 있어도 쓸 수 있다
 - 설계 문서가 「완성」 이 될 때까지 결정에 답한다 (아래 「결정에 답하기」)
 - `/sdd:task {폴더}`: 어떤 순서로 만드는지 작업 DAG 로 쓴다
-- `/sdd:bdd {폴더}`: 설계 문서가 E2E·통합으로 정한 인수 조건을 Gherkin 시나리오로 쓴다
+- `/sdd:bdd {폴더}`: 설계 문서가 E2E·통합으로 정한 인수 조건을 Gherkin 시나리오(`features/*.feature`)로 쓴다
 - 구현은 마스터가 요청할 때 tasks.md 를 보고 시작한다
 
 ## 곁가지
@@ -41,6 +42,9 @@ flowchart LR
 - 화면이 바뀌는 기능일 때: 요구사항 문서가 생긴 뒤, pug-frame 와이어프레임을 그리기 전에 `/sdd:flow {폴더}`
     - 흐름도와 화면 표로 어느 화면에 무엇이 끼어드는지 먼저 맞춘다. design.md 가 없어도 쓸 수 있다
     - 이미 그린 와이어프레임이 있으면 경로를 함께 넘긴다. 고칠 행 목록이 생긴다
+- 설계 전에 인수 조건을 예시로 맞춰 볼 때: 요구사항 문서가 생긴 뒤 `/sdd:bdd {폴더}`
+    - design.md 가 없으면 테스트 층을 따지지 않고 모든 인수 조건을 `scenarios.md` 의 gherkin 코드 블록으로 쓴다. 열린 결정은 추천안으로 쓴다
+    - 나중에 design.md 가 「완성」 되면 다시 불러 `features/*.feature` 를 쓴다
 - 다른 사람과 기획을 나눌 때: 요구사항 문서가 생긴 뒤 언제든
     - 개발자에게 → `/sdd:brief-dev {폴더}`
     - 운영·영업·디자인·경영 직원에게 → `/sdd:brief-nondev {폴더}`

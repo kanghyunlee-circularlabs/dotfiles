@@ -14,13 +14,14 @@ sdd 명령이 남기는 결과물과, 결과물끼리 무엇을 읽는지 정리
   tasks.md
   brief-dev.md
   brief-nondev.md
-  features/{도메인}/<actor>-<flow>.feature
+  scenarios.md             # design.md 없이 /sdd:bdd 를 부르면
+  features/{도메인}/<actor>-<flow>.feature   # design.md 가 있을 때 /sdd:bdd
   _humanize/{run_id}/        # 윤문 작업 파일. 01_input.txt 가 윤문 전 원문
 ```
 
 `/sdd:quick` 은 채팅 답이라 파일을 남기지 않는다.
 
-features/ 를 뺀 마크다운 결과물은 다 쓴 뒤 `humanize-korean` 윤문을 거친다. 언제·어떻게 거치는지는 `references/spec-format.md` 「윤문」 한 곳에 있다.
+features/ 와 scenarios.md 를 뺀 마크다운 결과물은 다 쓴 뒤 `humanize-korean` 윤문을 거친다. 언제·어떻게 거치는지는 `references/spec-format.md` 「윤문」 한 곳에 있다.
 
 ## 의존관계
 
@@ -32,6 +33,7 @@ flowchart LR
     flw["flow.md<br/>/sdd:flow"]
     tsk["tasks.md<br/>/sdd:task"]
     fea["features/*.feature<br/>/sdd:bdd"]
+    scn["scenarios.md<br/>/sdd:bdd"]
     bdev["brief-dev.md<br/>/sdd:brief-dev"]
     bnon["brief-nondev.md<br/>/sdd:brief-nondev"]
     req <--> rev
@@ -39,6 +41,7 @@ flowchart LR
     req --> flw
     req --> tsk
     req --> fea
+    req -- design.md 없을 때 --> scn
     req --> bdev
     req --> bnon
     des -- 「완성」 --> tsk
@@ -54,7 +57,8 @@ flowchart LR
 - requirements.md: 앞 문서가 없다. 모든 흐름의 시작점이다
 - persona-review: requirements.md 가 없으면 고치지 않고 `/sdd:draft` 를 안내한다. 새 파일을 만들지 않는다
 - design.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다. requirements.md 에 열린 결정이 남아 있어도 쓴다
-- tasks.md, features/: 둘 중 하나라도 없으면 쓰지 않고 빠진 문서를 만드는 명령을 안내한다. design.md 가 「완성」 이 아니면 남은 결정을 알려 준다
+- tasks.md: 둘 중 하나라도 없으면 쓰지 않고 빠진 문서를 만드는 명령을 안내한다. design.md 가 「완성」 이 아니면 남은 결정을 알려 준다
+- features/, scenarios.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다. design.md 가 없으면 scenarios.md 를 쓴다. requirements.md 에 열린 결정이 남아 있어도 추천안으로 쓴다. design.md 가 있으면 features/ 를 쓰고, 「완성」 이 아니면 남은 결정을 알려 준다
 - flow.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다. design.md 는 없어도 쓴다. requirements.md 에 열린 결정이 남아 있어도 추천안으로 그린다
 - brief-dev.md, brief-nondev.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다
 
@@ -62,7 +66,7 @@ flowchart LR
 
 화살표를 따라 뒤 문서를 다시 부른다.
 
-- requirements.md 를 고쳤다 → `/sdd:design` 으로 설계에 반영한 뒤, 아래 design.md 줄을 따른다. brief 를 썼다면 `/sdd:brief-dev`·`/sdd:brief-nondev`, 화면흐름을 썼다면 `/sdd:flow` 도 다시 부른다
+- requirements.md 를 고쳤다 → `/sdd:design` 으로 설계에 반영한 뒤, 아래 design.md 줄을 따른다. brief 를 썼다면 `/sdd:brief-dev`·`/sdd:brief-nondev`, 화면흐름을 썼다면 `/sdd:flow`, design.md 없이 scenarios.md 를 썼다면 `/sdd:bdd` 도 다시 부른다
 - design.md 를 고쳤다 → `/sdd:task`, `/sdd:bdd` 를 다시 부른다
     - tasks.md 는 이미 끝난(`done`) 작업을 그대로 두고 고친다
-- tasks.md, features/, flow.md, brief 문서는 다른 문서가 읽지 않는다. 고쳐도 다시 부를 명령이 없다
+- tasks.md, features/, scenarios.md, flow.md, brief 문서는 다른 문서가 읽지 않는다. 고쳐도 다시 부를 명령이 없다
