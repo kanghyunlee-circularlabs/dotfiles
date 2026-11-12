@@ -14,7 +14,7 @@ sdd 명령이 남기는 결과물과, 결과물끼리 무엇을 읽는지 정리
   tasks.md
   brief-dev.md
   brief-nondev.md
-  scenarios.md             # design.md 없이 /sdd:bdd 를 부르면
+  scenarios.md             # design.md 없이, 또는 `기획` 인자로 /sdd:bdd
   features/{도메인}/<actor>-<flow>.feature   # design.md 가 있을 때 /sdd:bdd
   _humanize/{run_id}/        # 윤문 작업 파일. 01_input.txt 가 윤문 전 원문
 ```
@@ -58,7 +58,7 @@ flowchart LR
 - persona-review: requirements.md 가 없으면 고치지 않고 `/sdd:draft` 를 안내한다. 새 파일을 만들지 않는다
 - design.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다. requirements.md 에 열린 결정이 남아 있어도 쓴다
 - tasks.md: 둘 중 하나라도 없으면 쓰지 않고 빠진 문서를 만드는 명령을 안내한다. design.md 가 「완성」 이 아니면 남은 결정을 알려 준다
-- features/, scenarios.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다. design.md 가 없으면 scenarios.md 를 쓴다. requirements.md 에 열린 결정이 남아 있어도 추천안으로 쓴다. design.md 가 있으면 features/ 를 쓰고, 「완성」 이 아니면 남은 결정을 알려 준다
+- features/, scenarios.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다. design.md 가 없거나 `기획` 인자가 있으면 scenarios.md 를 쓴다. 열린 결정이 남아 있어도 멈추지 않고, 정해지지 않은 인수 조건은 scenarios.md 「미결 사항」에 남긴다. 그 밖에는 features/ 를 쓰고, design.md 가 「완성」 이 아니면 남은 결정을 알려 준다
 - flow.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다. design.md 는 없어도 쓴다. requirements.md 에 열린 결정이 남아 있어도 추천안으로 그린다
 - brief-dev.md, brief-nondev.md: requirements.md 가 없으면 쓰지 않고 `/sdd:draft` 를 안내한다
 
@@ -66,7 +66,7 @@ flowchart LR
 
 화살표를 따라 뒤 문서를 다시 부른다.
 
-- requirements.md 를 고쳤다 → `/sdd:design` 으로 설계에 반영한 뒤, 아래 design.md 줄을 따른다. brief 를 썼다면 `/sdd:brief-dev`·`/sdd:brief-nondev`, 화면흐름을 썼다면 `/sdd:flow`, design.md 없이 scenarios.md 를 썼다면 `/sdd:bdd` 도 다시 부른다
+- requirements.md 를 고쳤다 → `/sdd:design` 으로 설계에 반영한 뒤, 아래 design.md 줄을 따른다. brief 를 썼다면 `/sdd:brief-dev`·`/sdd:brief-nondev`, 화면흐름을 썼다면 `/sdd:flow`, scenarios.md 를 썼다면 `/sdd:bdd {폴더} 기획` 도 다시 부른다
 - design.md 를 고쳤다 → `/sdd:task`, `/sdd:bdd` 를 다시 부른다
     - tasks.md 는 이미 끝난(`done`) 작업을 그대로 두고 고친다
 - tasks.md, features/, scenarios.md, flow.md, brief 문서는 다른 문서가 읽지 않는다. 고쳐도 다시 부를 명령이 없다
