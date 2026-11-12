@@ -1,6 +1,6 @@
 ---
 name: bdd
-description: sdd:draft 의 요구사항 문서(requirements.md)로 Gherkin 시나리오를 써요. 같은 폴더에 sdd:design 의 설계 문서(design.md)가 없거나 인자에 `기획` 이 있으면, 테스트 층을 따지지 않고 정해진 인수 조건을 마크다운 문서(scenarios.md)의 gherkin 코드 블록에 쓰고, 아직 정해지지 않은 인수 조건은 같은 문서의 「미결 사항」에 남겨요. 설계 문서가 있으면 「완성」인지 확인하고, 「요구사항 추적」 표에서 테스트 층이 E2E·통합인 인수 조건만 features/ 아래 *.feature 에 써요. 요구사항 문서가 없거나 설계 문서가 「완성」이 아니면 쓰지 않고 빠진 명령이나 남은 결정을 알려요. 트리거 - `/sdd:bdd {폴더 | requirements.md | design.md 경로} [기획]`, "시나리오 써줘", "feature 파일 만들어줘"
+description: sdd:draft 의 요구사항 문서(requirements.md)로 Gherkin 시나리오를 써요. requirements.md 경로를 받거나 같은 폴더에 sdd:design 의 설계 문서(design.md)가 없으면, 테스트 층을 따지지 않고 정해진 인수 조건을 마크다운 문서(scenarios.md)의 gherkin 코드 블록에 쓰고, 아직 정해지지 않은 인수 조건은 같은 문서의 「미결 사항」에 남겨요. 폴더나 design.md 경로를 받았고 설계 문서가 있으면 「완성」인지 확인하고, 「요구사항 추적」 표에서 테스트 층이 E2E·통합인 인수 조건만 features/ 아래 *.feature 에 써요. 요구사항 문서가 없거나 설계 문서가 「완성」이 아니면 쓰지 않고 빠진 명령이나 남은 결정을 알려요. 트리거 - `/sdd:bdd {requirements.md | design.md 경로 | 폴더}`, "시나리오 써줘", "feature 파일 만들어줘"
 metadata:
   author: AutomationPanda
   source: https://github.com/AutomationPanda/gherkin-guidelines-for-ai
@@ -39,9 +39,9 @@ This guidance assumes **Cucumber-compatible Gherkin** (the "Queen's Gherkin"). R
 - spec-format 「저장 위치」의 「폴더 고르기」로 폴더를 정한다. 파일 경로를 받으면 그 파일이 있는 폴더다
 - 폴더에 `requirements.md` 가 없으면 쓰지 않고 `/sdd:draft {설명}` 을 알린다
 - 경로를 고른다
-    - 인자에 `기획` 이 있다 → 「기획 경로」. `design.md` 가 있어도, 「완성」이 아니어도 그렇다
-    - 폴더에 `design.md` 가 없다 → 「기획 경로」
-    - 그 밖 → 「설계 경로」
+    - `requirements.md` 경로를 받았다 → 「기획 경로」. 같은 폴더에 `design.md` 가 있어도, 「완성」이 아니어도 그렇다
+    - `design.md` 경로를 받았다 → 「설계 경로」
+    - 폴더를 받았다 → `design.md` 가 없으면 「기획 경로」, 있으면 「설계 경로」
 - 고른 경로의 입력 문서를 끝까지 읽는다. 앞부분만 보고 쓰지 않는다
 
 ## 기획 경로
